@@ -16,6 +16,64 @@
   Once you've implemented the logic, test your code by running
 */
 
-class Calculator {}
+class Calculator {
+  constructor() {
+    this.result = 0;
+  }
+
+  add(num) {
+    return (this.result += num);
+  }
+
+  subtract(num) {
+    return (this.result -= num);
+  }
+
+  multiply(num) {
+    return (this.result *= num);
+  }
+
+  divide(num) {
+    if (num == 0) {
+      throw new Error("Enter non 0 value");
+    }
+    return (this.result /= num);
+  }
+
+  clear() {
+    return (this.result = 0);
+  }
+
+  getResult() {
+    return this.result;
+  }
+
+  calculate(expression) {
+
+    let str = expression.replace(/\s+/g, "").trim();
+
+    let errorFlag = 0;
+    const validChars = "0123456789+-*/().";
+
+    for (const char of str) {
+      if (validChars.indexOf(char) === -1) {
+        throw new Error("Invalid string");
+      }
+
+      if (char === "(") {
+        errorFlag++;
+      } else if (char === ")") {
+        if (errorFlag === 0) throw new Error("Invalid string");
+        errorFlag--;
+      }
+    }
+
+    if (errorFlag !== 0) throw new Error("Mismatch Parentheses");
+
+    if (str.includes('/0')) throw new Error('Divided by 0')
+
+    return this.result = eval(str);
+  }
+}
 
 module.exports = Calculator;
